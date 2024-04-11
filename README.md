@@ -2,9 +2,10 @@
 
 ## Liens et commande : 
 
-Code utilisé pour le dockerfile get weather à cette adresse : 
+Image du wrapper get weather sur dockerhub à cette adresse : 
 
-https://hub.docker.com/r/hamzadgr/getweather 
+[https://hub.docker.com/r/hamzadgr/getweather ](https://hub.docker.com/repository/docker/hamzadgr/getweather/general)
+
 
 Commande pour executer le docker file :
 
