@@ -18,5 +18,5 @@ Nous avons ensuite créé une image docker qui est disponible sur dockerhub à l
 
 ## Difficultés rencontrés
 
-Suite à un OS trop ancien pour docker, j'ai eu de grandes difficultés pour y avoir accsès. De ce fait, j'ai installé ubuntu sur un pc fixe ce qui m'a permis d'installer docker et de créer l'image de mon wrapper. 
-Cela m'a permis de maitriser un nouvel OS et de travailler sur de la config.
+Suite à un MacOS trop ancien pour installer docker sur ma machine, j'ai eu de grandes difficultés pour y avoir accsès. De ce fait, j'ai installé la dernière version d'ubuntu sur un pc fixe ce qui m'a permis d'installer docker et de faire le TP. 
+Cela m'a permis de maitriser un nouvel OS et de travailler sur de la config (clé boutable, installation, configuration de linux etc).
