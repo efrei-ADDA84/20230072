@@ -29,7 +29,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: hamzadgr/getweatherAPI:latest
+          tags: hamzadgr/getweather_api:latest
 
 
           
