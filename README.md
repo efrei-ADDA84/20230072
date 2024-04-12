@@ -4,7 +4,7 @@
 
 Image du wrapper get weather sur dockerhub à cette adresse : 
 
-[[https://hub.docker.com/r/hamzadgr/getweather ]](https://hub.docker.com/repository/docker/hamzadgr/getweather_api/)(https://hub.docker.com/repository/docker/hamzadgr/getweather/general)
+[[https://hub.docker.com/r/hamzadgr/getweather_api]](https://hub.docker.com/repository/docker/hamzadgr/getweather_api/)(https://hub.docker.com/repository/docker/hamzadgr/getweather/general)
 
 
 Commande pour executer le docker file :
