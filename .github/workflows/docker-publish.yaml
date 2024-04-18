@@ -85,7 +85,7 @@ jobs:
           dns-name-label: devops-20230072
           image: hamzadgr/getweather_api:latest
           name: 20230072
-          location: 'west europe'
+          location: 'france south'
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
