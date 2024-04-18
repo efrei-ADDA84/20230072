@@ -83,7 +83,7 @@ jobs:
         with:
           resource-group: ${{ secrets.RESOURCE_GROUP }}
           dns-name-label: devops-20230072
-          image: hamzadgr/getweather_api:latest
+          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20230072:latest
           name: 20230072
           location: 'west europe'
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
