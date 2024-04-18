@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -10,8 +11,8 @@ api_key = '6e1c179eb50ae7f95cc2d7845ad8b6ec'
 
 @app.route('/weather', methods=['GET'])
 def get_weather():
-    latitude = request.args.get('LATTITUDE')  
-    longitude = request.args.get('LONGITUDE')  
+    latitude = os.getenv("LATITUDE")
+    longitude = os.getenv("LONGITUDE")
 
     if not (latitude and longitude):
         return jsonify({"error": "Veuillez fournir la latitude et la longitude"}), 400  
