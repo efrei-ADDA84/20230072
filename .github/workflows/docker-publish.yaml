@@ -21,9 +21,10 @@ jobs:
       - name: Run Hadolint
         run: hadolint Dockerfile
 
-  publish_to_docker_hub:
+  publish:
     name: Publish to Docker Hub
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
