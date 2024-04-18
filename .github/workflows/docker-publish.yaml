@@ -63,7 +63,7 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build and push Docker image to ACR
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
@@ -89,7 +89,7 @@ jobs:
           dns-name-label: devops-20230072
           image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/20230072:latest
           name: 20230072
-          location: 'west europe'
+          location: 'francecentral'
           registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           registry-username: ${{ secrets.REGISTRY_USERNAME }}
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
