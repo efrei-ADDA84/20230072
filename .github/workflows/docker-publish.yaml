@@ -22,7 +22,7 @@ jobs:
         run: hadolint Dockerfile
 
   publish:
-    name: Publish to Docker Hub
+    name: Publish to Docker Hub and Azure Container Registry
     runs-on: ubuntu-latest
 
     steps:
