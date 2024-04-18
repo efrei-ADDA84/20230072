@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 #Creation de la route 
-@app.route('/')
+@app.route('/weather', methods=['GET'])
 def get_weather():
     latitude = request.args.get('lat')
     longitude = request.args.get('lon')
