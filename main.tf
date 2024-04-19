@@ -1,0 +1,113 @@
+# Fichier de conf Terraform
+
+# Fournisseur
+provider "azurerm" {
+  features {}
+}
+
+# Variables
+variable "subscription_id" {
+  type    = string
+  default = "765266c6-9a23-4638-af32-dd1e32613047"
+}
+
+variable "resource_group_name" {
+  type    = string
+  default = "ADDA84-CTP"
+}
+
+variable "location" {
+  type    = string
+  default = "francecentral"
+}
+
+variable "network_name" {
+  type    = string
+  default = "network-tp4"
+}
+
+variable "subnet_name" {
+  type    = string
+  default = "internal"
+}
+
+variable "vm_name" {
+  type = string
+  default = "20230072"
+}
+
+variable "admin_username" {
+  type    = string
+  default = "devops"
+}
+
+# Création de la clé SSH
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Création de l'adresse IP publique
+resource "azurerm_public_ip" "public_ip" {
+  name                = "publicip"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Dynamic"
+}
+
+# Création du réseau virtuel et du sous-réseau
+resource "azurerm_virtual_network" "virtual_network" {
+  name                = var.network_name
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  address_space       = ["10.0.0.0/16"]
+}
+
+resource "azurerm_subnet" "subnet" {
+  name                 = var.subnet_name
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+# Création de la machine virtuelle
+resource "azurerm_linux_virtual_machine" "virtual_machine" {
+  name                = "devops-${var.vm_name}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  size                = "Standard_D2s_v3"
+  admin_username      = var.admin_username
+  disable_password_authentication = true
+  network_interface_ids = [azurerm_network_interface.nic.id]
+
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = tls_private_key.ssh_key.public_key_openssh
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "22.04-LTS"
+    version   = "latest"
+  }
+}
+
+# Création de l'interface réseau
+resource "azurerm_network_interface" "nic" {
+  name                = "nic-${var.vm_name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public_ip.id
+  }
+}
