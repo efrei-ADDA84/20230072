@@ -1,30 +1,33 @@
-# Rapport TP3 :
+# Rapport TP4 :
 
 ## Liens et commande : 
 
-Image du wrapper get weather sur dockerhub à cette adresse : 
+### Contexte : 
 
-[[https://hub.docker.com/r/hamzadgr/getweather_api]](https://hub.docker.com/repository/docker/hamzadgr/getweather_api/)(https://hub.docker.com/repository/docker/hamzadgr/getweather/general)
+Dans ce TP, nous avons appris à créer et déployer une machine virtuelle sur n'importe quel provider (en l'occurence azure pour nous) à travers la bibliothèque terraform et la microsft azure CLI.
 
-
-Commande pour executer le docker file :
-
-Dans votre terminal : 
-
-curl "http://devops-20230072.westeurope.azurecontainer.io/weather?LATTITUDE=5.902785&LONGITUDE=102.754175"
 
 ## Technologie 
 
-Dans ce TP, nous avons utilisé python et la bibliothèque Flask pour créer une API qui à partir d'une longitude et latitude renvoie les données météo associées grâce à l'API Openweather.
-L'objectif était ensuite de s'entrainer à la création d'un workflow github action qui permet d'executer des tâches à chaque comit sur le projet. 
-D'une part de déployer automatiquement le projet dans une image docker sur docker hub. Puis de déployer cette image docker sur le cloud azure pour qu'elle soit disponible depuis nimporte quelle machine.
+Dans ce TP, nous avons utilisé bibliothèque Terraform pour créer et déployer une machine virtuelle directement sur microsoft azure et ce à partir d'un fichier de configuration 'main.tf'
+L'objectif était ensuite de s'entrainer à la création d'une machine virtuelle tout en la configurant avec des paramètres particuliers et ce sans passer par Azure ou par la azure CLI.
+L'objectif était aussi de créer une clé SSH directement avec Terraform.
 
 ## Etapes 
 
-- J'ai gardé le projet qui avait été développé précedemment 
-- J'ai ensuite ajouté au docker-publish.yaml un job de publication de l'image docker sur azure en utilisant les secrets à disposition
-- J'ai testé le bon fonctionnement de l'API à travers un terminal sur mon pc et un navigateur
+- Installation de Terraform avec homebrew ou CURL et Azure CLI à travers des commandes disponibles dans la documentation
+- Création du fichier de configuration de la machine virtuelle grçace à la documentation et aux paramètres spécifiés dans la consigne du TP
+- Terraform init
+- Terraform apply (la machine virtuelle se créée et se déploye)
+- Terraform destroy (la machine virtuelle ainsi que les réseaux etc sont détruits)
+- Test de connection à la machine virtuelle à travers le terminal avec la commande 
+    ssh -i <clé_ssh> devops@<ADRESSE_IP> cat /etc/os-release 
+    -> permet de tester la connection ssh et récupérer les informations sur l'OS de la VM
 
 ## Difficultés rencontrés
 
-Enormément de difficultés à configurer mon yaml en fonction de azure. Pas mal de problèmes car je n'avais pas remarqué que l'API Key n'était plus indiquée dans la ligne de commande. J'ai finalement réussi à corriger tous ces problèmes pour que ça soit fonctionnel.
+Je ne connaissais absolument pas la bibliothèque Terraform et j'ai donc eu besoin de prendre le temps de lire la documentation pour pouvoir l'utiliser au début. Des difficultés à comprendre ce qu'il fallait créer pour que la machine virtuelle soit fonctionnelle donc beaucoup de temps sur le fichier de configuration à tester avec des terraform apply si cela fonctionnait.
+
+## Apports de Terraform par rapport à Azure CLI ou UI
+
+Avoir une Infrastructure as a Code permet de gérer plus facilement la configuration des infrastructres que l'on veut déployer. De plus, cela permet l'automatisation et la plannification des déploiement. Enfin, je pense que cela est plus simple à maintenir et faire évoluer si besoin car accès direct aux variables.

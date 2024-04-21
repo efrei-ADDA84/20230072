@@ -1,7 +1,6 @@
-# Fichier de conf Terraform
-
 # Fournisseur
 provider "azurerm" {
+  skip_provider_registration = true
   features {}
 }
 
@@ -55,21 +54,6 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Dynamic"
 }
 
-# Création du réseau virtuel et du sous-réseau
-resource "azurerm_virtual_network" "virtual_network" {
-  name                = var.network_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  address_space       = ["10.0.0.0/16"]
-}
-
-resource "azurerm_subnet" "subnet" {
-  name                 = var.subnet_name
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = ["10.0.2.0/24"]
-}
-
 # Création de la machine virtuelle
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
   name                = "devops-${var.vm_name}"
@@ -92,10 +76,17 @@ resource "azurerm_linux_virtual_machine" "virtual_machine" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "22.04-LTS"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
     version   = "latest"
-  }
+}
+}
+
+# Récupération de l'ID du sous-réseau
+data "azurerm_subnet" "subnet" {
+  name                 = var.subnet_name
+  virtual_network_name = var.network_name
+  resource_group_name  = var.resource_group_name
 }
 
 # Création de l'interface réseau
@@ -106,7 +97,7 @@ resource "azurerm_network_interface" "nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.subnet.id
+    subnet_id                     = data.azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
